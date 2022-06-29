@@ -14,13 +14,15 @@ function onInputChange(event) {
     countryList.innerHTML = '';
     countryInfo.innerHTML = '';
     const inputClearOfSpace = searchInput.value.trim();
-
+    if(inputClearOfSpace === ""){
+        return Notiflix.Notify.warning("Dont mess with me and enter country");
+    }
     fetchCountries(inputClearOfSpace).then(country => {
         if (country.length > 10) {
             Notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`)
-        }else if (country.length <= 10 && country.length > 1 && searchInput.value !== undefined) {
+        }else if (country.length <= 10 && country.length > 1 && searchInput.value !== undefined && searchInput.value !== "") {
             buildListMarkup(country);
-        } else if (country.length === 1 && searchInput.value !== undefined) {
+        } else if (country.length === 1 && searchInput.value !== undefined && searchInput.value !== "") {
             countryInfo.innerHTML = buildCountryCard(country);
         }
     }).catch(error => {console.log(error)
